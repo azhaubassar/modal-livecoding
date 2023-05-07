@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import ErrorModal from "./Components/ErrorModal";
 
 function App() {
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("some BE requests is going.....");
+      setIsErrorModalVisible(true);
+    }, 5000);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div className="container-button">
+        <button
+          className="button"
+          onClick={() => setIsAddModalVisible(!isAddModalVisible)}
         >
-          Learn React
-        </a>
-      </header>
+          <p className="button-text">+</p>
+        </button>
+      </div>
+
+      <button onClick={() => setIsErrorModalVisible(!isErrorModalVisible)}>
+        its an error
+      </button>
+
+      {isAddModalVisible && (
+        <div className="modal">
+          <p style={{ color: "black" }}>Add New To Do</p>
+          <textarea className="modal-textarea">Your text</textarea>
+          <button className="modal-addbutton">Add</button>
+        </div>
+      )}
+
+      {isErrorModalVisible && <ErrorModal />}
     </div>
   );
 }
